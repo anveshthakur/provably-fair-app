@@ -7,23 +7,46 @@ import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
 import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import norse from './Norse-Data.json';
+import { initializeApp } from 'firebase/app';
 
+//Wallets
 const wallets = [ getPhantomWallet() ]
+
+//System Program and Keypair
 const { SystemProgram, Keypair } = web3;
+
+//Base Account in which all the game transactions will take place.
 const baseAccount = Keypair.generate();
+
+//options with Commitment = "processed"
 const opts = {
   preflightCommitment: "processed"
 }
 
+//program id for the idl
 const programID = new PublicKey(idl.metadata.address);
+
+//network devnet
 const network = clusterApiUrl("devnet");
 
+
+//firebase
+// const firebaseConfig = {
+
+// }
+
+// const App = initializeApp(firebaseConfig);
+
+
 function App() {
+
+  //state for value , DataList, input 
   const [value, setValue] = useState('');
   const [dataList, setDataList] = useState([]);
   const [input, setInput] = useState('');
 
-  const wallet = useWallet()
+  //user's wallet
+  const wallet = useWallet();
 
   async function getProvider() {
     /* create the provider and return it to the caller */
@@ -35,6 +58,8 @@ function App() {
     return provider;
   }
 
+
+  // Game initialize instructions
   async function initialize() {    
     const provider = await getProvider();
     
@@ -61,6 +86,7 @@ function App() {
     }
   }
 
+  //Update instruction for adding a new card.
   async function update() {
     if (!input) return
     const provider = await getProvider();
@@ -88,19 +114,22 @@ function App() {
     }
     else{
       console.log("Already Have 3 Cards it's time to play")
-      console.log(dataList);
     }
   }
 
+
+  // Creating the Combat Cards and Calculating the Scores.
+  //FIREBASE - POST - 1
   const createCombatCards = async() => {
     if(dataList < 3) console.log("You Should Make Some Cards First");
-    
+    let total_Score = (norse[dataList[0]].HP + norse[dataList[0]].Strength + norse[dataList[1]].HP + norse[dataList[1]].Strength + norse[dataList[2]].HP + norse[dataList[2]].Strength);
     let userCardsObject = {
       user: wallet.publicKey.toString(),
       cards: [
         norse[dataList[0]],
         norse[dataList[1]],
         norse[dataList[2]],
+        total_Score,
       ]
     }
     console.log(userCardsObject);
@@ -149,7 +178,7 @@ function App() {
             <h4 key={i}> 
               <ul style = {{listStyle: 'none'}}>
                 <li>Name: {norse[d].name}</li> 
-                <li>Level: {norse[d].Level}</li>
+                <li>Level: {norse[d].Rarity}</li>
                 <li>Hp: {norse[d].HP}</li>
                 <li>Strength: {norse[d].Strength}</li>
               </ul>
