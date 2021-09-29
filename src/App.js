@@ -1,13 +1,19 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+//Smart Contract
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 import idl from './idl.json';
 import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
 import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import norse from './Norse-Data.json';
-import { initializeApp } from 'firebase/app';
+
+//axios
+import axios from './axios-nft';
+
+//components
+import Challenges from './Components/Challenges';
 
 //Wallets
 const wallets = [ getPhantomWallet() ]
@@ -29,25 +35,29 @@ const programID = new PublicKey(idl.metadata.address);
 //network devnet
 const network = clusterApiUrl("devnet");
 
-
-//firebase
-// const firebaseConfig = {
-
-// }
-
-// const App = initializeApp(firebaseConfig);
-
-
 function App() {
-
   //state for value , DataList, input 
   const [value, setValue] = useState('');
   const [dataList, setDataList] = useState([]);
   const [input, setInput] = useState('');
+  const [norse, setNorse] = useState();
+  const [cards, setCards] = useState();
 
+
+  useEffect(() => {
+    axios.get("https://nft-game-e9370-default-rtdb.asia-southeast1.firebasedatabase.app/Norse-god.json")
+      .then(response => {
+        console.log(response.data);
+        setNorse(response.data);
+      })
+      .catch(err => console.log(err))
+  }, [])
+  
+  
   //user's wallet
   const wallet = useWallet();
 
+  //getting the provider  
   async function getProvider() {
     /* create the provider and return it to the caller */
     /* network set to local network for now */
@@ -57,7 +67,6 @@ function App() {
     );
     return provider;
   }
-
 
   // Game initialize instructions
   async function initialize() {    
@@ -117,27 +126,59 @@ function App() {
     }
   }
 
-
   // Creating the Combat Cards and Calculating the Scores.
   //FIREBASE - POST - 1
   const createCombatCards = async() => {
-    if(dataList < 3) console.log("You Should Make Some Cards First");
-    let total_Score = (norse[dataList[0]].HP + norse[dataList[0]].Strength + norse[dataList[1]].HP + norse[dataList[1]].Strength + norse[dataList[2]].HP + norse[dataList[2]].Strength);
-    let userCardsObject = {
-      user: wallet.publicKey.toString(),
-      cards: [
-        norse[dataList[0]],
-        norse[dataList[1]],
-        norse[dataList[2]],
-        total_Score,
-      ]
+    if(dataList < 3) console.log("You Should Make Some Cards First");    
+    else{
+      let total_Score = (norse[dataList[0]].HP + norse[dataList[0]].Strength + norse[dataList[1]].HP + norse[dataList[1]].Strength + norse[dataList[2]].HP + norse[dataList[2]].Strength);
+      let userCardsObject = {
+        user: wallet.publicKey.toString(),
+        cards: [
+          norse[dataList[0]],
+          norse[dataList[1]],
+          norse[dataList[2]],
+        ],
+        score: total_Score 
+      }
+      
+      setCards(userCardsObject);
+
+      axios.post('/users-nft.json', userCardsObject)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
     }
-    console.log(userCardsObject);
   }
 
+  //FIREBASE - POST - 2
+  const createChallenge = async() => {
+    if(dataList < 3) console.log("You Should Make Some Cards First");
+    else{
+      let total_Score = (norse[dataList[0]].HP + norse[dataList[0]].Strength + norse[dataList[1]].HP + norse[dataList[1]].Strength + norse[dataList[2]].HP + norse[dataList[2]].Strength);
+      let userCardsObject = {
+        user: wallet.publicKey.toString(),
+        cards: [
+          norse[dataList[0]],
+          norse[dataList[1]],
+          norse[dataList[2]],
+        ],
+        score: total_Score,
+        challenge: "active",
+      }
+      
+      console.log(userCardsObject);
 
+      axios.post('/users-challenge-active.json', userCardsObject)
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
 
-  if (!wallet.connected) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
+  }
+
+  if (!wallet.connected) {  
     return (
       <>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop:'100px' }}>
@@ -145,12 +186,18 @@ function App() {
       </div>
       </>
     )
-  } else {
+
+  } else {    
     return (
+      <>
       <div className="App">
         <div>
           {
-            !value && (<button onClick={initialize}>Initialize</button>)
+            !value && (
+              <>
+              <button onClick={initialize}>Initialize</button>
+              </>
+            )
           }
           {
             value ? (
@@ -166,6 +213,9 @@ function App() {
                 <br />
                 <br />
                 <button onClick={createCombatCards}>Create Combat Cards</button>
+                <br />
+                <br />
+                <button onClick={createChallenge}>Post a Challenge!!</button>
               </div>
             
             ) : (
@@ -183,15 +233,16 @@ function App() {
                 <li>Strength: {norse[d].Strength}</li>
               </ul>
             </h4>
-            )
-          }
+            )          
+          }        
         </div>
       </div>
+      <br />
+        <Challenges userCards = {cards} />
+      </>
     );
   }
 }
-
-
 
 
 const AppWithProvider = () => (
