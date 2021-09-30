@@ -144,9 +144,9 @@ function App() {
       
       setCards(userCardsObject);
 
-      axios.post('/users-nft.json', userCardsObject)
-      .then(response => console.log(response))
-      .catch(error => console.log(error));
+      // axios.post('/users-nft.json', userCardsObject)
+      // .then(response => console.log(response))
+      // .catch(error => console.log(error));
     }
   }
 
@@ -154,8 +154,8 @@ function App() {
   const createChallenge = async() => {
     if(dataList < 3) console.log("You Should Make Some Cards First");
     else{
-      let total_Score = (norse[dataList[0]].HP + norse[dataList[0]].Strength + norse[dataList[1]].HP + norse[dataList[1]].Strength + norse[dataList[2]].HP + norse[dataList[2]].Strength);
-      let userCardsObject = {
+    let total_Score = (norse[dataList[0]].HP + norse[dataList[0]].Strength + norse[dataList[0]].Speed + norse[dataList[1]].HP + norse[dataList[1]].Strength + norse[dataList[1]].Speed + norse[dataList[2]].HP + norse[dataList[2]].Strength + norse[dataList[2]].Speed);
+    let userCardsObject = {
         user: wallet.publicKey.toString(),
         cards: [
           norse[dataList[0]],
@@ -168,7 +168,7 @@ function App() {
       
       console.log(userCardsObject);
 
-      axios.post('/users-challenge-active.json', userCardsObject)
+    axios.post('/users-challenge-active.json', userCardsObject)
         .then(response => console.log(response))
         .catch(error => console.log(error));
 
@@ -231,6 +231,7 @@ function App() {
                 <li>Level: {norse[d].Rarity}</li>
                 <li>Hp: {norse[d].HP}</li>
                 <li>Strength: {norse[d].Strength}</li>
+                <li>Speed: {norse[d].Speed}</li>
               </ul>
             </h4>
             )          

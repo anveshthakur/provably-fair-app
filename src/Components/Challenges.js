@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../axios-nft';
 
-
 const Challenges = ({userCards}) => {
 
-    const [challenges, setChallenges] = useState(null);
-    const [keys, setKeys] = useState();
-    const [battle, setBattle] = useState();
-    const [number, setNumber] = useState()
+    const [challenges, setChallenges] = useState(null); //the main challenge
+    const [keys, setKeys] = useState(); //keys for firebase
+    const [battle, setBattle] = useState(); //battle challenge
+    const [number, setNumber] = useState(); //key for database
+    const [winner, setWinner] = useState(); //winner
 
     useEffect(() => {
         axios.get('./users-challenge-active.json')
@@ -16,16 +16,22 @@ const Challenges = ({userCards}) => {
                 setKeys(Object.keys(res.data))
                 setChallenges(res.data)
             })
-            .catch(err => console.log(err)) 
+            .catch(err => console.log(err))
     }, [])
 
-    
-    //FIREBASE - DELETE - 1
-    const battleHandler = (challenge, key) => {
+    const battlePreparationsHandler = (challenge, key) => {
         setBattle(challenge);
         setNumber(key);
-        console.log(battle);
-        console.log(number);
+        console.log(key);
+    }
+
+    const battleHandler = () => {
+        setTimeout(() => {}, 2000)
+        if(battle.score > userCards.score) setWinner(battle.user)
+        else setWinner(userCards.user)
+        axios.delete(`/users-challenge-active/${number}.json`)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
     }
 
     return (
@@ -33,7 +39,7 @@ const Challenges = ({userCards}) => {
         <div style={{alignItems : "center"}}>
             <br />
             {
-                challenges ?(
+                challenges && userCards ?(
                 <>
                     <h1>Challenges: </h1>
                     <br />
@@ -41,7 +47,7 @@ const Challenges = ({userCards}) => {
                         {Object.values(challenges).map((challenge, key) => (
                         challenge.challenge === "active" &&
                         (   
-                            <li onClick = {() => battleHandler(challenge, keys[key])} key = {key}>
+                            <li onClick = {() => battlePreparationsHandler(challenge, keys[key])} key = {key}>
                                 {challenge.user}
                             </li>
                         )
@@ -50,22 +56,27 @@ const Challenges = ({userCards}) => {
                 </>
                 )
                 :
-                (<h1>Loading..</h1>)
+                (<h1></h1>)
             }
         </div>
         <br />
         <br />
-        {/* <h1> BATTLE AREA </h1>
-        <div style = {{textAlign : "center"}}>
-           {
-           battle && userCards ? (
-               <h3>loaded</h3>
-           ):
-           (
-               <h3>loading...</h3>
-           )
-        } 
-        </div> */}
+        {battle && userCards &&(
+            <div style = {{textAlign : "center"}}>
+                <h1> BATTLE ARENA </h1>
+                <h1>Battle Between</h1>
+                <h3>Player 1: {battle.user}</h3>
+                <h3>Player 2:{userCards.user}</h3>
+                <button onClick={battleHandler}> Fight!! </button>
+
+                <br />
+                <br />
+            
+                <h1> Winner is {winner} </h1>
+                <br />
+            </div>
+        )
+        }
         </>
     )
 }
