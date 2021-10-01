@@ -19,12 +19,16 @@ const Challenges = ({userCards}) => {
             .catch(err => console.log(err))
     }, [])
 
+
+    //1 nft to challenger's temp account
     const battlePreparationsHandler = (challenge, key) => {
         setBattle(challenge);
         setNumber(key);
         console.log(key);
     }
 
+
+    //temp account to winner's account
     const battleHandler = () => {
         setTimeout(() => {}, 2000)
         if(battle.score > userCards.score) setWinner(battle.user)
@@ -39,7 +43,7 @@ const Challenges = ({userCards}) => {
         <div style={{alignItems : "center"}}>
             <br />
             {
-                challenges && userCards ?(
+                challenges && userCards &&(
                 <>
                     <h1>Challenges: </h1>
                     <br />
@@ -55,8 +59,6 @@ const Challenges = ({userCards}) => {
                     </ul>
                 </>
                 )
-                :
-                (<h1></h1>)
             }
         </div>
         <br />
@@ -71,8 +73,7 @@ const Challenges = ({userCards}) => {
 
                 <br />
                 <br />
-            
-                <h1> Winner is {winner} </h1>
+                    <h1> Winner is {winner} </h1>
                 <br />
             </div>
         )

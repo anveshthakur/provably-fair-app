@@ -57,6 +57,7 @@ function App() {
   //user's wallet
   const wallet = useWallet();
 
+
   //getting the provider  
   async function getProvider() {
     /* create the provider and return it to the caller */
@@ -116,11 +117,18 @@ function App() {
   }
 
 
+
+  
+
+
   //Making the NORSE GODS and Minting the 
   const norseGodHandler = async() => {
     if(dataList.length < 3){
       await update();
+      // ---minting
     }
+    // ---minting in the temp account
+
     else{
       console.log("Already Have 3 Cards it's time to play")
     }
@@ -131,6 +139,7 @@ function App() {
   const createCombatCards = async() => {
     if(dataList < 3) console.log("You Should Make Some Cards First");    
     else{
+      
       let total_Score = (norse[dataList[0]].HP + norse[dataList[0]].Strength + norse[dataList[1]].HP + norse[dataList[1]].Strength + norse[dataList[2]].HP + norse[dataList[2]].Strength);
       let userCardsObject = {
         user: wallet.publicKey.toString(),
@@ -143,6 +152,7 @@ function App() {
       }
       
       setCards(userCardsObject);
+      console.log(norse[dataList[0]])
 
       // axios.post('/users-nft.json', userCardsObject)
       // .then(response => console.log(response))
@@ -151,6 +161,7 @@ function App() {
   }
 
   //FIREBASE - POST - 2
+  //temp account --> backend --> challenger ki ekk nft transfer
   const createChallenge = async() => {
     if(dataList < 3) console.log("You Should Make Some Cards First");
     else{
