@@ -9,6 +9,11 @@ import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
 import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
+
+//minting
+import { mintNFT } from '../../actions';
+
+
 //axios
 import axios from './axios-nft';
 
@@ -42,6 +47,7 @@ function App() {
   const [input, setInput] = useState('');
   const [norse, setNorse] = useState();
   const [cards, setCards] = useState();
+  const [nft, setNft] = useState();
 
 
   useEffect(() => {
@@ -116,19 +122,71 @@ function App() {
     setInput('');
   }
 
+  const mint = async (name, creator, image, strength, rarity, HP, speed ) => {
+    const metadata = {
+      name: name,
+      creators: creator,
+      description: "Valhalla NFT-CARD",
+      image: image,
+      attributes:[
+    {
+        "trait_type": "Strength",
+        "value": strength.toString()
+    },
+    {
+      "trait_type": "Rairity",
+      "value": rarity,
+    },
+    {
+        "trait_type": "HP",
+        "value": HP.toString()
+    },
+    {
+        "trait_type": "Speed",
+        "value": speed.toString()
+    }
+  ],
+      external_url: "https://phantom.app/",
+      properties: {
+      "files": [
+        {
+        "uri": "image.png",
+        "type": "image/png"
+        }
+      ],
+      "category": "image",
+      "creators": [
+        {
+        "address": creator,
+        "share": 1
+        }
+    ]
+    }
+    };
 
 
-  
+    try {
+      const _nft = await mintNFT(
+        connection,
+        wallet,
+        env,
+        // files,
+        metadata,
+        1,
+      );
+
+      if (_nft) setNft(_nft);
+    } catch(e) {
+      console.log(e.message);
+    }
+  };
 
 
   //Making the NORSE GODS and Minting the 
   const norseGodHandler = async() => {
     if(dataList.length < 3){
       await update();
-      // ---minting
     }
-    // ---minting in the temp account
-
     else{
       console.log("Already Have 3 Cards it's time to play")
     }
@@ -152,11 +210,11 @@ function App() {
       }
       
       setCards(userCardsObject);
+
+      //We get the whole card list here we can mint here.
+      //below is how we are accessing the card
       console.log(norse[dataList[0]])
 
-      // axios.post('/users-nft.json', userCardsObject)
-      // .then(response => console.log(response))
-      // .catch(error => console.log(error));
     }
   }
 
