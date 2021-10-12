@@ -1,0 +1,272 @@
+[
+{
+"name": "Andhrimnir",
+"HP": "27",
+"Rarity": "common",
+"Speed": "24",
+"Strength": "20",
+"Mint": "HeriUjeYP9c51df1pNMi9fGZ8jJLgkNfYbP5UsgkUegD",
+"Address": "4VngBdrDYpjNxUhMGbEZSNhNuF1JAnaHgdWvsA8y9XNU"
+},
+{
+"name": "Angerbda",
+"HP": "23",
+"Rarity": "common",
+"Speed": "24",
+"Strength": "21",
+"Mint": "Fqq2j4fFbwBFthVz6qzdBzRHB4qA3QUHkVzbwqThxZ8s",
+"Address": "3tB1j3C4rv1dcWpZEcXRdDsj4L3svXkfzqBhEXh87x3k"
+},
+{
+"name": "Asabru",
+"HP": "24",
+"Rarity": "common",
+"Speed": "23",
+"Strength": "23",
+"Mint": "Hs2mFT5hru7KKyLxRGu43i42TesY5UiPaAv1y3pnLsPo",
+"Address": "12qG5KjbzchjwPMW2GCVRC2pLsXVe4s8ugwLxRoJHkF"
+},
+{
+"name": "Astrild",
+"HP": "23",
+"Rarity": "common",
+"Speed": "27",
+"Strength": "22",
+"Mint": "EiUVxwzRYwFzHoY23D6x9CEyW49VtX93cNKNUoDpRJpg",
+"Address": "6Q9evedpsU61mV2VAKqEsH54zW2unKQLR9C69AovneTA"
+},
+{
+"name": "Audhumbla",
+"HP": "24",
+"Rarity": "common",
+"Speed": "26",
+"Strength": "22",
+"Mint": "3dajkiuD1BU8viXg8pfW2LpBpL6BMYWfaJt9n3gzZYWh",
+"Address": "Df81kSEMmDhZt84xRGwXjAY8tkYLgJ2nrgeKNEPncMt2"
+},
+{
+"name": "Aurgelmir",
+"HP": "28",
+"Rarity": "common",
+"Speed": "26",
+"Strength": "25",
+"Mint": "4N7tk3aXGjz56JRjxAABeDVj2HiDDUSZJ2ZJmgv1ftA7",
+"Address": "FjWHfsHiiVG5XddScHxY7aFKhUXmw9MxJEDsGR62X6F"
+},
+{
+"name": "Aurvandil",
+"HP": "28",
+"Rarity": "common",
+"Speed": "22",
+"Strength": "26",
+"Mint": "Akz4t8uia6dZ1WSGy8X154LNrEN2hkt3mBtRdDjafTFB",
+"Address": "AuDpufzkkfRUJih71aTAzhZjaobbapZWQXgBRaDss88S"
+},
+{
+"name": "Besla",
+"HP": "25",
+"Rarity": "common",
+"Speed": "29",
+"Strength": "28",
+"Mint": "FpMr7RmfGqtU9E2REMtW9s6z7HpK5eqzFbU2rcU28iWS",
+"Address": "GPCsRX4Z8yB5Tb3RU97miiF2eCMnTbioE2cvSAtpPwqF"
+},
+{
+"name": "Beyla",
+"HP": "25",
+"Rarity": "common",
+"Speed": "23",
+"Strength": "20",
+"Mint": "EhPkaViJCgh8vhT5B2BTAdjsCYZgorztvuQDh1rKp7uo",
+"Address": "3YvxfHkdzUKJsw7ARaBz2wDVdzi9Ys8VvB1bqEqpqb38"
+},
+{
+"name": "Bifrost",
+"HP": "20",
+"Rarity": "common",
+"Speed": "26",
+"Strength": "26",
+"Mint": "7uT7T39haVCPiJsjcRDbbtBfcZKcp69WQoM4aM7cTsDJ",
+"Address": "DqdPdm6RRSvkkgpyQw98QsVmRdUChHtrcHTpdFCwzVpt"
+},
+{
+"name": "Bjort",
+"HP": "50",
+"Rarity": "rare",
+"Speed": "51",
+"Strength": "40",
+"Mint": "61MCVWX7xctmbet1MiGK5iQqRmwdtUctocqXMxsjNdHw",
+"Address": "6iUbT7XPXShLbRfWk2PyKxNBFxunvWTbtyFmauBgxpXr"
+},
+{
+"name": "Brage",
+"HP": "20",
+"Rarity": "common",
+"Speed": "25",
+"Strength": "28",
+"Mint": "64kbhfwTmGpK7qcrDhwcSGbwNnsRJZx7YbWR3oT1RvPQ",
+"Address": "4XVsdjnCuj1431p1fCFv4vHGpBnpLCbAn7WxBNsoPqLK"
+},
+{
+"name": "Bragi",
+"HP": "20",
+"Rarity": "common",
+"Speed": "28",
+"Strength": "28",
+"Mint": "8JvDFjKvdK9gWCyRerxn6DeRZgpGBXAJ6yQMqrSBGaAU",
+"Address": "ANFxvZSnowriBaDWdLX1CFEbVo58qFor9F8pxEGjQgL6"
+},
+{
+"name": "Brunhild",
+"HP": "26",
+"Rarity": "common",
+"Speed": "20",
+"Strength": "29",
+"Mint": "DeKf2t27k7UyN3iGKEBKkqitTBgrJQgFffVcfkhCvSMq",
+"Address": "A9CpSWwVyjedYG2sXSmSF2fkyq2DfPbicRBPuocnKkPG"
+},
+{
+"name": "Buri",
+"HP": "23",
+"Rarity": "common",
+"Speed": "28",
+"Strength": "23  ",
+"Mint": "665BBhUEFsRkUmkgqy2A23rwShvu8QUM7juh8Qpua1AL",
+"Address": "HnntbQSTBRZAr4qLuQvhbeyaN9JVWppX9NpmPMuyWf72"
+},
+{
+"name": "Bur",
+"HP": "21",
+"Rarity": "common",
+"Speed": "26",
+"Strength": "28",
+"Mint": "9qvfzQi3NUtDevvN4qU9sHRsNhWS6vQei92QJhdaV25b",
+"Address": "7F1J5qAaVpzKYXUp8Tbcf47nZkgsBxVZhr8V9XrHkPJw"
+},
+{
+"name": "Byggvir",
+"HP": "20",
+"Rarity": "common",
+"Speed": "28",
+"Strength": "26",
+"Mint": "6AyyQYuY7QmZvr31Rchz6Q3GpwXBvpdAgQK5nG1DCgoG",
+"Address": "ENKkMU1bTBYRq5QKsfmz3HKxMUFU9p8mCbiyJnXHNDGa"
+},
+{
+"name": "Disir",
+"HP": "27",
+"Rarity": "common",
+"Speed": "22",
+"Strength": "24",
+"Mint": "CYqzU3SxCfRTRXZo8P3x8iYoKDw2VXWSkWDn51ctwuzG",
+"Address": "5TZZDf1a1EP8f8dZBxCrVougw8UwxNPHCfANTkyz84o7"
+},
+{
+"name": "Donar",
+"HP": "41",
+"Rarity": "rare",
+"Speed": "50",
+"Strength": "57",
+"Mint": "GkuVzQCuQyercbqHzuUTgVSRW9UZhpQQBe5CbifWe79V",
+"Address": "EknjqwtsftxtBZyGJ4yx2nVUcJ7YQmStTxVLawTV7xuH"
+},
+{
+"name": "Eir",
+"HP": "29",
+"Rarity": "common",
+"Speed": "25",
+"Strength": "27",
+"Mint": "91pJZC6tMWwgwsT2JoX1N8PY9XXqUiGr21yqjYHNmL4L",
+"Address": "4HGwhgrZSuvqyDTpNqmdrFhxNaXoRUNLLLgptFQAJBFp"
+},
+{
+"name": "Elli",
+"HP": "43",
+"Rarity": "rare",
+"Speed": "42",
+"Strength": "44",
+"Mint": "8VLxLMjHc8HREjUx7g7u36j8orefFfrrcRc4QpwKh1in",
+"Address": "4TGgMBTeagSAXzs2pLcg5XEDVAsdHsxrkLmJ7RVbZXrj"
+},
+{
+"name": "Fafnir",
+"HP": "28",
+"Rarity": "common",
+"Speed": "22",
+"Strength": "29",
+"Mint": "HK2kfnYYTW12RH8x9GoMyLrEHchwBGaqEwNk9UTYFttK",
+"Address": "HMPgZWTthuenUM9WX7LnRrsBHUd1nXAz1qcne15iXomJ"
+},
+{
+"name": "Fjorgyn",
+"HP": "21",
+"Rarity": "common",
+"Speed": "27",
+"Strength": "27",
+"Mint": "8ur2ZGJXJDTdDgqzoEW5rGSjdzhwYjk5u7qduX7LkqFR",
+"Address": "2tnSp1fdgbYUzUzbw9QzdgJ2VyAHGymYDdd8L67ysqT5"
+},
+{
+"name": "Forseti",
+"HP": "26",
+"Rarity": "common",
+"Speed": "21",
+"Strength": "24",
+"Mint": "2dmRVrQ43P8bJk1pACtsEoDU7LfyN8B54BmEtr7KBtN8",
+"Address": "HVUBJJbCfEBnTGXs8xfP8nfVe7TBFsSeP8toiwSCjNZx"
+},
+{
+"name": "Freyr",
+"HP": "86",
+"Rarity": "epic",
+"Speed": "83",
+"Strength": "88",
+"Mint": "2rH3JwnDG6jKwu5BSm8EWYQ9xwG5P5oYfLQVBHP1x8Sj",
+"Address": "3ngGotu7bAvg7H5ySQHLCRHu4QdCsbCPwoS3baDQY2Je"
+},
+{
+"name": "Frigg",
+"HP": "88",
+"Rarity": "epic",
+"Speed": "84",
+"Strength": "81",
+"Mint": "9QELmCKeyoRu6Vx6QjoxWsJeanju68pGumw1SDjEq8ho",
+"Address": "Hi9qNjo2cyMKkQRkQ7qb6VNEtBFRiDJ8NDCPWSQFteDw"
+},
+{
+"name": "Frost Giants",
+"HP": "53",
+"Rarity": "rare",
+"Speed": "59",
+"Strength": "51",
+"Mint": "7uRxEE5Ug3Bxs22agzVa91YMg5Fy1epeAyULcSaurWVS",
+"Address": "Bmty1Co7dRvCVVCFxSLzGdQ9mTvSkKxL33L8UCMXztcv"
+},
+{
+"name": "Fulla",
+"HP": "42",
+"Rarity": "rare",
+"Speed": "45",
+"Strength": "43",
+"Mint": "7vpW8TSwnBpiejrZWW15aLG1HMY29Ycqwgr4qdUJ7Zwt",
+"Address": "7SW23Sn3vbZWt3vdfPcUzXQkXy2mcutHipDSQb1YJcMG"
+},
+{
+"name": "Garm",
+"HP": "54",
+"Rarity": "rare",
+"Speed": "50",
+"Strength": "44",
+"Mint": "7yPbLBqeTGt2eg5kphgdkewFrCeVdSDkgEqFRvLHqEDt",
+"Address": "FUQ2n7iqfAsCCzgytNc5v8gpRWRDYMyRLJtaMXmLu3gz"
+},
+{
+"name": "Loki",
+"HP": "94",
+"Rarity": "Legendary",
+"Speed": "95",
+"Strength": "90",
+"Mint": "AP3eZVLUPaqCPMPmwAopupGC4P9q8YAEe9oWPvfs5CPp",
+"Address": "AJfVxQCBGrmX9qcUsg4F8VngvwPaHtfHvfEMVn7Fr8zc"
+}
+]

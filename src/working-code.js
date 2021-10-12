@@ -33,7 +33,7 @@ const opts = {
 }
 
 //secret key
-const secretKey = [117,100,11,230,238,248,239,156,101,16,209,129,156,20,229,235,81,201,168,58,171,54,223,92,52,188,151,60,35,53,150,197,37,79,29,180,143,83,104,100,81,6,176,113,11,243,198,194,104,141,149,169,47,85,45,213,137,84,165,151,179,216,46,148]
+const secretKey = [94,59,125,86,165,37,107,111,37,75,107,84,244,63,24,194,189,144,57,88,4,169,176,93,14,167,250,92,225,141,204,165,8,21,245,181,119,215,0,172,12,184,117,148,31,83,45,64,114,156,233,10,250,229,60,17,182,182,44,226,187,197,41,185]
 const secret = Uint8Array.from(secretKey);
 const key = Keypair.fromSecretKey(secret);
 
@@ -79,7 +79,7 @@ function App() {
     
     /* create the program interface combining the idl, program ID, and provider */
     const program = new Program(idl, programID, provider);
-
+    
     try {
       await program.rpc.initialize("Hello World", {
         accounts: {
@@ -88,7 +88,7 @@ function App() {
           systemProgram: SystemProgram.programId,
         },
         signers: [baseAccount]
-    });
+      });
 
       const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
       console.log('account: ', account);
@@ -134,9 +134,16 @@ function App() {
 
     if(dataList.length < 3){
     let card = await update();
-    let mintAddress = norse[card[card.length - 1]].Mint
+    let mintAddress = norse[card[card.length - 1] % 4 ].Mint
+    // let associatedfromAddress = norse[card[card.length - 1] % 4 ].Address
 
     //Associated Account
+    
+    // tokenDestAssociatedAddress = await getOrCreateAssociatedAccount(
+    //       wallet.publicKey.toString(),
+    //       mintAddress,
+    //       wallet.publicKey.toString()
+    // )
     
     
     tokenDestAssociatedAddress = await getOrCreateAssociatedAccount(
@@ -151,19 +158,22 @@ function App() {
           wallet.publicKey.toString()
     )
 
-    // console.log(tokenDestAssociatedAddress.toString(), '***toAccount');
-    // console.log(associatedfromAddress.toString(), '***fromAccount');
+    // tokenDestAssociatedAddress = tokenDestAssociatedAddress.toString();
+    // associatedfromAddress = associatedfromAddress.toString();
+
+    // console.log(tokenDestAssociatedAddress, '***toAccount');
+    // console.log(associatedfromAddress, '***fromAccount');
     // console.log(key.publicKey.toString(), '***innerWallet');
     // console.log(mintAddress, "***mint");
 
     const transaction = new Transaction().add(
     Token.createTransferInstruction(
       TOKEN_PROGRAM_ID,
-      new PublicKey(associatedfromAddress.toString()),  // associatedfromAddress,      //src
-      new PublicKey(tokenDestAssociatedAddress.toString()),  // tokenDestAssociatedAddress, //dest
-      key.publicKey,    //owner
-      [],    //multi
-      1,     //amount
+      associatedfromAddress,      //src
+      tokenDestAssociatedAddress, //dest
+      key.publicKey,//owner
+      [],//multi
+      1,//amount
     ),
     )
 
@@ -175,6 +185,7 @@ function App() {
     );
 
     console.log('SIGNATURE', signature);
+    // console.log(transaction, "***transaction");
   }
     else{
       console.log("Already Have 3 Cards it's time to play")
@@ -191,9 +202,9 @@ function App() {
       let userCardsObject = {
         user: wallet.publicKey.toString(),
         cards: [
-          norse[dataList[0]],
-          norse[dataList[1]],
-          norse[dataList[2]],
+          norse[dataList[0] % 4 ],
+          norse[dataList[1] % 4 ],
+          norse[dataList[2] % 4 ],
         ],
         score: total_Score 
       }
@@ -213,9 +224,9 @@ function App() {
     let userCardsObject = {
         user: wallet.publicKey.toString(),
         cards: [
-          norse[dataList[0]],
-          norse[dataList[1]],
-          norse[dataList[2]],
+          norse[dataList[0] % 4 ],
+          norse[dataList[1] % 4 ],
+          norse[dataList[2] % 4 ],
         ], 
         score: total_Score,
         challenge: "active",
@@ -282,11 +293,11 @@ function App() {
             dataList.map((d, i) => 
             <h4 key={i}> 
               <ul style = {{listStyle: 'none'}}>
-                <li>Name: {norse[d].name}</li> 
-                <li>Level: {norse[d].Rarity}</li>
-                <li>Hp: {norse[d].HP}</li>
-                <li>Strength: {norse[d].Strength}</li>
-                <li>Speed: {norse[d].Speed}</li>
+                <li>Name: {norse[d % 4].name}</li> 
+                <li>Level: {norse[d % 4].Rarity}</li>
+                <li>Hp: {norse[d % 4].HP}</li>
+                <li>Strength: {norse[d % 4].Strength}</li>
+                <li>Speed: {norse[d % 4].Speed}</li>
               </ul>
             </h4>
             )          
@@ -299,6 +310,7 @@ function App() {
     );
   }
 }
+
 
 const AppWithProvider = () => (
   <ConnectionProvider endpoint={network}>

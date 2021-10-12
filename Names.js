@@ -83,7 +83,7 @@ NamesLegendary.forEach(name => {
 Data = shuffleArr(Data);
 
 
-fs.writeFile('Data.json', JSON.stringify(Data), (err) => {
+fs.writeFile('NorseData.json', JSON.stringify(Data), (err) => {
     if(err) throw err;
 })
 
