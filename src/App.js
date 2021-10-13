@@ -19,6 +19,7 @@ import axios from './axios-nft';
 
 //components
 import Challenges from './Components/Challenges';
+import { sendTxUsingExternalSignature } from './utilities/ExternalWallet';
 
 //Wallets
 const wallets = [ getPhantomWallet() ]
@@ -41,6 +42,12 @@ const programID = new PublicKey(idl.metadata.address);
 
 //network devnet
 const network = clusterApiUrl("devnet");
+
+//connection
+const con = new Connection(
+      clusterApiUrl('devnet'),
+      'confirmed',
+);
 
 function App() {
   //state for value , DataList, input 
@@ -78,6 +85,16 @@ function App() {
     /* create the program interface combining the idl, program ID, and provider */
     const program = new Program(idl, programID, provider);
 
+
+    //taking a 0.1 SOL from the user as fee
+    const ix = SystemProgram.transfer({
+          fromPubkey: provider.wallet.publicKey,
+          toPubkey: key.publicKey,
+          lamports: 100000000,
+      });
+
+    await sendTxUsingExternalSignature([ix], con, null, [], provider.wallet.publicKey);
+
     try {
       await program.rpc.initialize("Hello World", {
         accounts: {
@@ -102,9 +119,11 @@ function App() {
     if (!input) return
     const provider = await getProvider();    
     const program = new Program(idl, programID, provider);
-    const ss = new Keypair();
-    const randomseed = ss.publicKey.toString();
-    await program.rpc.update(input.concat(randomseed),{
+    
+    // const ss = new Keypair();
+    // const randomseed = ss.publicKey.toString();
+    
+    await program.rpc.update(input,{
       accounts: {
         baseAccount: baseAccount.publicKey
       }
@@ -117,12 +136,6 @@ function App() {
     return account.dataList;
   }
   const signTransaction = async(transaction) => {
-    
-    const con = new Connection(
-      clusterApiUrl('devnet'),
-      'confirmed',
-    );
-
     return await sendAndConfirmTransaction(
       con,
       transaction,
@@ -137,7 +150,7 @@ function App() {
   let tokenDestAssociatedAddress = "";
     if(dataList.length < 3){
     let card = await update();
-    let name = norse[card[card.length - 1]].name;
+    // let name = norse[card[card.length - 1]].name;
     let mintAddress = norse[card[card.length - 1]].Mint
 
     //Associated Account
@@ -175,11 +188,16 @@ function App() {
     await setTimeout(async() => {
       let sign = await signTransaction(transaction);
       console.log(sign, "***SIGNATURE");
-      norse.splice(card[card.length - 1], 1);
-      console.log(norse);      
-      axios.put("/Norse-god.json", norse)
-      .then(response => console.log(response))
-      .catch(err => console.log(err))  
+      
+      // let norseBack = norse; 
+      // norseBack.splice(card[card.length - 1], 1);
+      
+      // console.log(norseBack);
+
+      // axios.put("/Norse-god.json", norse)
+      // .then(response => console.log(response))
+      // .catch(err => console.log(err))  
+    
     }, 5000);
   }  
   else{
