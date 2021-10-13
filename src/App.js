@@ -36,17 +36,18 @@ const secretKey = [117,100,11,230,238,248,239,156,101,16,209,129,156,20,229,235,
 const secret = Uint8Array.from(secretKey);
 const key = Keypair.fromSecretKey(secret);
 
-
 //program id for the idl
 const programID = new PublicKey(idl.metadata.address);
+
 //network devnet
 const network = clusterApiUrl("devnet");
+
 function App() {
   //state for value , DataList, input 
   const [value, setValue] = useState('');
   const [dataList, setDataList] = useState([]);
   const [input, setInput] = useState('');
-  const [norse, setNorse] = useState();
+  const [norse, setNorse] = useState([]);
   const [cards, setCards] = useState();
 
   useEffect(() => {
@@ -57,8 +58,7 @@ function App() {
       })
       .catch(err => console.log(err))
   }, [])
-  
-  
+    
   //user's wallet
   const wallet = useWallet();
 
@@ -74,7 +74,7 @@ function App() {
   // Game initialize instructions
   async function initialize() {    
     const provider = await getProvider();
-    
+
     /* create the program interface combining the idl, program ID, and provider */
     const program = new Program(idl, programID, provider);
 
@@ -103,9 +103,8 @@ function App() {
     const provider = await getProvider();    
     const program = new Program(idl, programID, provider);
     const ss = new Keypair();
-    const randomseed = ss.publicKey.toString()
-    
-    await program.rpc.update(input.concat(randomseed) , {
+    const randomseed = ss.publicKey.toString();
+    await program.rpc.update(input.concat(randomseed),{
       accounts: {
         baseAccount: baseAccount.publicKey
       }
@@ -117,7 +116,6 @@ function App() {
     setInput('');
     return account.dataList;
   }
-
   const signTransaction = async(transaction) => {
     
     const con = new Connection(
@@ -139,6 +137,7 @@ function App() {
   let tokenDestAssociatedAddress = "";
     if(dataList.length < 3){
     let card = await update();
+    let name = norse[card[card.length - 1]].name;
     let mintAddress = norse[card[card.length - 1]].Mint
 
     //Associated Account
@@ -154,10 +153,11 @@ function App() {
           wallet.publicKey.toString()
     ).catch(err => console.log(err))
 
-    console.log(tokenDestAssociatedAddress.toString(), '***toAccount');
-    console.log(associatedfromAddress.toString(), '***fromAccount');
-    console.log(key.publicKey.toString(), '***innerWallet');
-    console.log(mintAddress, "***mint");
+    // console.log(tokenDestAssociatedAddress.toString(), '***toAccount');
+    // console.log(associatedfromAddress.toString(), '***fromAccount');
+    // console.log(key.publicKey.toString(), '***innerWallet');
+    // console.log(mintAddress, "***mint");
+    // console.log(name, "***name");
 
     const transaction = new Transaction().add(
         Token.createTransferInstruction(
@@ -168,23 +168,24 @@ function App() {
           [],    //multi
           1,     //amount
       ),
+    
+    
     )
 
     await setTimeout(async() => {
       let sign = await signTransaction(transaction);
       console.log(sign, "***SIGNATURE");
-      let norseArray = [norse];
-      console.log(norseArray);
-      console.log(typeof norse);
+      norse.splice(card[card.length - 1], 1);
+      console.log(norse);      
+      axios.put("/Norse-god.json", norse)
+      .then(response => console.log(response))
+      .catch(err => console.log(err))  
     }, 5000);
-  }
-    
+  }  
   else{
       console.log("Already Have 3 Cards it's time to play")
     }
   }
-
-  
 
   // Creating the Combat Cards and Calculating the Scores.
   //FIREBASE - POST - 1
