@@ -14,7 +14,6 @@ import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-r
 //Associated Account
 import { getOrCreateAssociatedAccount } from './utilities/getOrCreateAssociatedAccounts';
 
-
 //axios
 import axios from './axios-nft';
 
@@ -49,7 +48,6 @@ function App() {
   const [input, setInput] = useState('');
   const [norse, setNorse] = useState();
   const [cards, setCards] = useState();
-  // const [AssociatedTokenAddress ,setAssociatedTokenAddress] = useState(''); 
 
   useEffect(() => {
     axios.get("https://nft-game-e9370-default-rtdb.asia-southeast1.firebasedatabase.app/Norse-god.json")
@@ -102,10 +100,8 @@ function App() {
   //Update instruction for adding a new card.
   async function update() {
     if (!input) return
-    const provider = await getProvider();
-    
+    const provider = await getProvider();    
     const program = new Program(idl, programID, provider);
-
     const ss = new Keypair();
     const randomseed = ss.publicKey.toString()
     
@@ -122,65 +118,74 @@ function App() {
     return account.dataList;
   }
 
-
-  //Making the NORSE GODS and Minting the 
-  const norseGodHandler = async() => {
-  let tokenDestAssociatedAddress = "";
-
-  const con = new Connection(
+  const signTransaction = async(transaction) => {
+    
+    const con = new Connection(
       clusterApiUrl('devnet'),
       'confirmed',
-  );
+    );
 
-    if(dataList.length < 3){
-    let card = await update();
-    let mintAddress = norse[card[card.length - 1]].Mint
-
-    //Associated Account
-    
-    
-    tokenDestAssociatedAddress = await getOrCreateAssociatedAccount(
-          wallet.publicKey.toString(),
-          mintAddress,
-          wallet.publicKey.toString()
-    )
-
-    let associatedfromAddress = await getOrCreateAssociatedAccount(
-          key.publicKey.toString(),
-          mintAddress,
-          wallet.publicKey.toString()
-    )
-
-    // console.log(tokenDestAssociatedAddress.toString(), '***toAccount');
-    // console.log(associatedfromAddress.toString(), '***fromAccount');
-    // console.log(key.publicKey.toString(), '***innerWallet');
-    // console.log(mintAddress, "***mint");
-
-    const transaction = new Transaction().add(
-    Token.createTransferInstruction(
-      TOKEN_PROGRAM_ID,
-      new PublicKey(associatedfromAddress.toString()),  // associatedfromAddress,      //src
-      new PublicKey(tokenDestAssociatedAddress.toString()),  // tokenDestAssociatedAddress, //dest
-      key.publicKey,    //owner
-      [],    //multi
-      1,     //amount
-    ),
-    )
-
-    const signature = await sendAndConfirmTransaction(
+    return await sendAndConfirmTransaction(
       con,
       transaction,
       [key],
       {commitment: 'confirmed'},
     );
 
-    console.log('SIGNATURE', signature);
   }
-    else{
+
+  //Making the NORSE GODS and Minting the 
+  const norseGodHandler = async() => {
+  let tokenDestAssociatedAddress = "";
+    if(dataList.length < 3){
+    let card = await update();
+    let mintAddress = norse[card[card.length - 1]].Mint
+
+    //Associated Account
+    tokenDestAssociatedAddress = await getOrCreateAssociatedAccount(
+          wallet.publicKey.toString(),
+          mintAddress,
+          wallet.publicKey.toString()
+    ).catch(err => console.log(err))
+
+    let associatedfromAddress = await getOrCreateAssociatedAccount(
+          key.publicKey.toString(),
+          mintAddress,
+          wallet.publicKey.toString()
+    ).catch(err => console.log(err))
+
+    console.log(tokenDestAssociatedAddress.toString(), '***toAccount');
+    console.log(associatedfromAddress.toString(), '***fromAccount');
+    console.log(key.publicKey.toString(), '***innerWallet');
+    console.log(mintAddress, "***mint");
+
+    const transaction = new Transaction().add(
+        Token.createTransferInstruction(
+          TOKEN_PROGRAM_ID,
+          new PublicKey(associatedfromAddress.toString()),  // associatedfromAddress,      //src
+          new PublicKey(tokenDestAssociatedAddress.toString()),  // tokenDestAssociatedAddress, //dest
+          key.publicKey,    //owner
+          [],    //multi
+          1,     //amount
+      ),
+    )
+
+    await setTimeout(async() => {
+      let sign = await signTransaction(transaction);
+      console.log(sign, "***SIGNATURE");
+      let norseArray = [norse];
+      console.log(norseArray);
+      console.log(typeof norse);
+    }, 5000);
+  }
+    
+  else{
       console.log("Already Have 3 Cards it's time to play")
     }
   }
- 
+
+  
+
   // Creating the Combat Cards and Calculating the Scores.
   //FIREBASE - POST - 1
   const createCombatCards = async() => {
@@ -203,7 +208,6 @@ function App() {
     }
   }
 
-  
   //FIREBASE - POST - 2
   //temp account --> backend --> challenger ki ekk nft transfer
   const createChallenge = async() => {
