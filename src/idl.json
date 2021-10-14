@@ -1,6 +1,6 @@
 {
   "version": "0.0.0",
-  "name": "provably_fair",
+  "name": "game",
   "instructions": [
     {
       "name": "initialize",
@@ -66,6 +66,6 @@
     }
   ],
   "metadata": {
-    "address": "J9HRt44oNPyjusZ1VNUhjpKjuC8SGiuAVNQLqvWTsrEx"
+    "address": "6oo8shqmyyKC3J6N1A1mrLXozCmAE8zeTQtbmMzPufDB"
   }
 }
