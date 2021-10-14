@@ -56,6 +56,8 @@ function App() {
   const [input, setInput] = useState('');
   const [norse, setNorse] = useState([]);
   const [cards, setCards] = useState();
+  //change
+  const [norseBack,] = useState([]);
 
   useEffect(() => {
     axios.get("https://nft-game-e9370-default-rtdb.asia-southeast1.firebasedatabase.app/Norse-god.json")
@@ -85,8 +87,10 @@ function App() {
     /* create the program interface combining the idl, program ID, and provider */
     const program = new Program(idl, programID, provider);
 
+    //norseback //Change
+    norseBack.push(...norse);
 
-    //taking a 0.1 SOL from the user as fee
+    //taking a 0.1 SOL from the user as fee //change
     const ix = SystemProgram.transfer({
           fromPubkey: provider.wallet.publicKey,
           toPubkey: key.publicKey,
@@ -119,10 +123,6 @@ function App() {
     if (!input) return
     const provider = await getProvider();    
     const program = new Program(idl, programID, provider);
-    
-    // const ss = new Keypair();
-    // const randomseed = ss.publicKey.toString();
-    
     await program.rpc.update(input,{
       accounts: {
         baseAccount: baseAccount.publicKey
@@ -135,6 +135,7 @@ function App() {
     setInput('');
     return account.dataList;
   }
+
   const signTransaction = async(transaction) => {
     return await sendAndConfirmTransaction(
       con,
@@ -142,7 +143,6 @@ function App() {
       [key],
       {commitment: 'confirmed'},
     );
-
   }
 
   //Making the NORSE GODS and Minting the 
@@ -150,6 +150,7 @@ function App() {
   let tokenDestAssociatedAddress = "";
     if(dataList.length < 3){
     let card = await update();
+    //accessing the values of cards//
     // let name = norse[card[card.length - 1]].name;
     let mintAddress = norse[card[card.length - 1]].Mint
 
@@ -187,17 +188,14 @@ function App() {
 
     await setTimeout(async() => {
       let sign = await signTransaction(transaction);
-      console.log(sign, "***SIGNATURE");
-      
-      // let norseBack = norse; 
-      // norseBack.splice(card[card.length - 1], 1);
-      
-      // console.log(norseBack);
+      console.log(sign, "***SIGNATURE"); 
+      norseBack.splice(card[card.length - 1], 1);
+      console.log(norseBack);
 
-      // axios.put("/Norse-god.json", norse)
-      // .then(response => console.log(response))
-      // .catch(err => console.log(err))  
-    
+      axios.put("/Norse-god.json", norseBack)
+      .then(response => console.log(response))
+      .catch(err => console.log(err))  
+
     }, 5000);
   }  
   else{
@@ -297,7 +295,10 @@ function App() {
               </div>
             
             ) : (
+              <>
               <h3>Please Initialize.</h3>
+              <h5>We are taking an amount of 0.1 SOL if you win you'll get a reward of 0.2 SOL</h5>
+              </>
             )
           }
           <br />
